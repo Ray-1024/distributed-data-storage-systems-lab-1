@@ -36,7 +36,7 @@ begin
             for object_record in
                 select line_text, line_number
                 from regexp_split_to_table(row_record.object_text, E'\n') with ordinality as t(line_text, line_number)
-                where lower(t.line_text) LIKE '%' || lower(search_text) || '%'
+                where position(lower(search_text) in lower(line_text)) > 0
                 loop
                     insert into search_results (object_name, line_number, line_text)
                     values (row_record.object_name,
