@@ -1,13 +1,13 @@
 create or replace procedure search_code_in_schema(
-    schema_name text,
-    search_text text
+    search_text text,
+    schema_name text
 )
     language plpgsql
 as
 $$
 declare
-    row_record  record;
-    object_text text;
+    row_record    record;
+    object_record record;
 begin
     raise notice 'No.    Имя объекта    # строки    Текст';
     raise notice '-------------------------------------------------------------------------------';
@@ -33,15 +33,15 @@ begin
                  join pg_namespace n ON c.relnamespace = n.oid
         where n.nspname = schema_name
         loop
-            for object_text in
-                select line_number::text || '&' || line_text::text
+            for object_record in
+                select line_text, line_number
                 from regexp_split_to_table(row_record.object_text, E'\n') with ordinality as t(line_text, line_number)
                 where lower(t.line_text) LIKE '%' || lower(search_text) || '%'
                 loop
                     insert into search_results (object_name, line_number, line_text)
                     values (row_record.object_name,
-                            split_part(object_text, '&', 1)::int,
-                            split_part(object_text, '&', 2));
+                            object_record.line_number::int,
+                            object_record.line_text::text);
                 end loop;
         end loop;
 
