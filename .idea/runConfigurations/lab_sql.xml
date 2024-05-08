@@ -1,8 +1,0 @@
-<component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="lab.sql" type="DatabaseScript" editBeforeRun="true" nameIsGenerated="true">
-    <script-file value="$PROJECT_DIR$/lab.sql" />
-    <script-mode>FILE</script-mode>
-    <data-source id="e92c41c2-6003-4828-bca1-e206fce94b15" namespace="database/&quot;studs&quot;/schema/&quot;s335135&quot;" />
-    <method v="2" />
-  </configuration>
-</component>
